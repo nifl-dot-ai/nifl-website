@@ -5,7 +5,7 @@ interface Props {
   width?: number;
 }
 
-const { label, accent = '#8FD8FF', width = 40 } = Astro.props;
+const { label, accent = '#2A86C4', width = 40 } = Astro.props;
 const height = Math.round(width * 1.5);
 ---
 
@@ -13,7 +13,7 @@ const height = Math.round(width * 1.5);
   <path
     d="M24 18L37 36L24 54L11 36ZM24 4V68"
     fill="none"
-    stroke="#EDEDED"
+    stroke="currentColor"
     stroke-width="2.4"
     stroke-linecap="square"
     stroke-linejoin="miter"

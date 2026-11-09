@@ -33,11 +33,11 @@ const { mist = 0.8, speed = 1, runes = 0.7, renderScale = 0.6 } = Astro.props;
       <defs>
         <filter id="mistA" x="0" y="0" width="1000" height="400" filterUnits="userSpaceOnUse">
           <feTurbulence type="fractalNoise" baseFrequency="0.0024 0.011" numOctaves="4" seed="3" stitchTiles="stitch" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0.93 0 0 0 0 0.95 0 0 0 0 0.97 1.8 0 0 0 -0.7" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0.16 0 0 0 0 0.38 0 0 0 0 0.58 1.8 0 0 0 -0.7" />
         </filter>
         <filter id="mistB" x="0" y="0" width="1000" height="400" filterUnits="userSpaceOnUse">
           <feTurbulence type="fractalNoise" baseFrequency="0.004 0.016" numOctaves="3" seed="17" stitchTiles="stitch" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0.93 0 0 0 0 0.95 0 0 0 0 0.97 1.9 0 0 0 -0.78" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0.16 0 0 0 0 0.38 0 0 0 0 0.58 1.9 0 0 0 -0.78" />
         </filter>
       </defs>
     </svg>

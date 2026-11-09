@@ -1,9 +1,12 @@
 :root {
-  --bg: #0A0A0A;
-  --text: #EDEDED;
-  --muted: #A3A3A3;
-  --dim: #8F8F8F;
-  --underline: #4A4A4A;
+  --bg: #D6ECF5;
+  --ice-glow: #EEF8FC;
+  --ice-deep: #BCDDEC;
+  --text: #0E1822;
+  --strong: #000000;
+  --muted: #34495A;
+  --dim: #34495A;
+  --underline: #7F9BB0;
 }
 
 * {
@@ -21,6 +24,7 @@ body {
 
 body {
   background: var(--bg);
+  background-image: radial-gradient(ellipse at 60% 45%, var(--ice-glow), var(--bg) 45%, var(--ice-deep));
   color: var(--text);
   font-family: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -93,7 +97,7 @@ h1.caps {
 }
 
 .cta:hover {
-  color: #FFFFFF;
+  color: var(--strong);
   text-decoration-color: var(--text);
 }
 
@@ -113,4 +117,15 @@ footer {
   padding: 32px 24px;
   font-size: 14px;
   color: var(--dim);
+}
+
+@media (max-height: 520px) {
+  .hero {
+    padding: 32px 24px;
+    gap: 20px;
+  }
+
+  .footer-inner {
+    padding: 16px 24px;
+  }
 }

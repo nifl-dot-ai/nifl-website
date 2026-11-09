@@ -70,21 +70,23 @@ float sdSeg(vec2 p, vec2 a, vec2 b) {
 void main() {
   vec2 frag = gl_FragCoord.xy / uRes;
   vec2 uv = gl_FragCoord.xy / uRes.y;
+  // Fog is sized from the shorter side so tall phone screens get the same swirls.
+  vec2 fuv = gl_FragCoord.xy / min(uRes.y, uRes.x * 1.4);
   float t = uTime;
 
   // Domain-warped noise: the fog drifts left and curls as it moves.
-  vec2 p = vec2(uv.x * 1.4, uv.y * 2.2);
-  p.x += t * 0.14;
+  vec2 p = vec2(fuv.x * 1.4, fuv.y * 2.2);
+  p.x += t * 0.16;
   vec2 q = vec2(fbm(p + vec2(0.0, t * 0.06)), fbm(p + vec2(5.2, 1.3) - vec2(t * 0.05, 0.0)));
   vec2 r = vec2(fbm(p + 3.0 * q + vec2(1.7, 9.2) + vec2(t * 0.11, 0.0)), fbm(p + 3.0 * q + vec2(8.3, 2.8) - vec2(0.0, t * 0.09)));
   float f = fbm(p + 2.6 * r);
 
-  // Fog sits in a band across the middle and thins around the headline.
+  // Fog sits in a band across the middle and thins a little around the headline.
   float band = smoothstep(0.02, 0.38, frag.y) * (1.0 - smoothstep(0.62, 0.98, frag.y));
   float haze = 0.25 + 0.75 * band;
   vec2 dv = (frag - vec2(0.27, 0.5)) * vec2(1.6, 2.4);
   float clearing = mix(0.35, 1.0, smoothstep(0.25, 0.9, length(dv)));
-  float fogAlpha = pow(smoothstep(0.3, 0.85, f), 1.6) * haze * clearing * uDensity;
+  float fogAlpha = pow(smoothstep(0.34, 0.78, f), 1.4) * haze * clearing * uDensity;
 
   // Runes are drawn inside the fog and bent by the same warp.
   vec2 pr = uv + (r - vec2(0.5)) * 0.035;
@@ -104,9 +106,10 @@ void main() {
   float runeA = core * (0.35 + 1.1 * fogLit) * mix(0.55, 1.0, clearing) * uRune;
   float glowA = halo * fogLit * haze * 0.45 * uRune;
 
-  vec3 fogCol = vec3(0.90, 0.93, 0.96);
-  vec3 runeCol = vec3(0.95, 0.98, 1.0);
-  vec3 glowCol = vec3(0.78, 0.88, 1.0);
+  // Fog is darker than the pale ice: steel blue at the thin edges, deep blue where dense.
+  vec3 fogCol = mix(vec3(0.36, 0.60, 0.76), vec3(0.10, 0.28, 0.46), smoothstep(0.42, 0.8, f));
+  vec3 runeCol = vec3(0.10, 0.30, 0.50);
+  vec3 glowCol = vec3(1.0);
   float alpha = clamp(fogAlpha + runeA + glowA, 0.0, 1.0);
   vec3 rgb = fogCol * fogAlpha + runeCol * runeA + glowCol * glowA;
   gl_FragColor = vec4(min(rgb, vec3(alpha)), alpha);
@@ -210,6 +213,7 @@ function readConfig(root: HTMLElement): FogConfig {
     renderScale: num(root.dataset.renderScale, 0.6),
   };
 }
+
 
 function compile(gl: WebGLRenderingContext, type: number, src: string): WebGLShader {
   const shader = gl.createShader(type);
@@ -329,7 +333,7 @@ function startWebGL(canvas: HTMLCanvasElement, config: FogConfig, onFail: () => 
 
     ctx.uniform2f(u.res, canvas.width, canvas.height);
     ctx.uniform1f(u.time, t);
-    ctx.uniform1f(u.density, config.mist * 0.5);
+    ctx.uniform1f(u.density, config.mist * 1.05);
     ctx.uniform1f(u.rune, config.runes);
     ctx.uniform1i(u.count, count);
     ctx.uniform4fv(u.seg, seg);
@@ -418,7 +422,7 @@ function showFallback(fallback: HTMLElement | null, config: FogConfig): void {
       const path = document.createElementNS(svgNS, 'path');
       path.setAttribute('d', glyphPath(GLYPHS[b.g]));
       path.setAttribute('fill', 'none');
-      path.setAttribute('stroke', '#F2F7FF');
+      path.setAttribute('stroke', '#1A4D80');
       path.setAttribute('stroke-width', '1.5');
       path.setAttribute('vector-effect', 'non-scaling-stroke');
       path.setAttribute('stroke-linecap', 'square');

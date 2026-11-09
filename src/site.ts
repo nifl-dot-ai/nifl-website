@@ -12,10 +12,10 @@ export interface Brand {
 }
 
 const NIFL: Brand = {
-  name: 'nifl',
-  display: 'nifl',
+  name: 'Nifl',
+  display: 'Nifl',
   domain: 'nifl.ai',
-  accent: '#8FD8FF',
+  accent: '#2A86C4',
   caps: false,
 };
 
@@ -33,7 +33,7 @@ export const BRAND: Brand = NIFL;
 export const SITE = {
   tagline: 'Sealed compute for AI safety research.',
   /** Point this at your access form, or use a mailto: link. */
-  accessHref: '#',
+  accessHref: 'mailto:info@nifl.ai?subject=Request%20access',
 };
 
 export const BRANDS = { NIFL, NIFLHEIM };
