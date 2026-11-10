@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  // site: 'https://nifl.ai',
+  site: 'https://nifl.ai',
 
   // No Markdown code blocks on this site. Turning Shiki off keeps its inline styles out of the CSP.
   markdown: { syntaxHighlight: false },
